@@ -25,43 +25,6 @@ def engine_connect():
     global connection
     connection = engine.connect()
 
-
-
-async def get_db() -> sqlalchemy.engine.base.Connection:
-    """Get a SQLAlchemy database connection.
-    
-    Uses this environment variable if it exists:  
-    DATABASE_URL=dialect://user:password@host/dbname
-
-    Otherwise uses a SQLite database for initial local development.
-    """
-    # Replace username, password, & blah.blah.blah
-    load_dotenv('.env')
-
-    pw = os.getenv('PASSWORD')
-    un = os.getenv('USER_NAME')
-    url = os.getenv("URL")
-    database_url = f'postgresql://{un}:{pw}@{url}/postgres'
-    engine = sqlalchemy.create_engine(database_url)
-    connection = engine.connect()
-    try:
-        yield connection
-    finally:
-        connection.close()
-
-# def get_url():
-#     """Verify we can connect to the database, 
-#     and return the database URL in this format:
-
-#     dialect://user:password@host/dbname
-    
-#     The password will be hidden with ***
-#     """
-#     engine_connect()
-#     url_without_password = repr(connection.engine.url)
-#     return {'database_url': url_without_password}
-
-
 @router.get('/info')
 async def get_url():
     """Verify we can connect to the database, 
